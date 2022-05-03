@@ -10,6 +10,36 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+#include <stdlib.h>
+
+int		ft_strlen(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	str = (char *)s;
+	if (n != 0)
+	{
+		while (i < n)
+		{
+			str[i] = '\0';
+			i++;
+		}
+	}
+}
+
 int     ft_atoi(const char *str)
 {
 	int		i;
@@ -37,4 +67,23 @@ int     ft_atoi(const char *str)
 	else if (result < 0 && negative == -1)
 		return (0);
 	return (result * negative);
+}
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	long	nbr;
+
+	nbr = n;
+	if (nbr >= 10)
+	{
+		ft_putnbr_fd(nbr / 10, fd);
+		ft_putnbr_fd(nbr % 10, fd);
+	}
+	else
+		ft_putchar_fd(nbr + '0', fd);
 }

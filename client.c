@@ -17,22 +17,26 @@
 
 int     ft_atoi(const char *str);
 
-int     ft_check_pid(pid_t pid)
+int     ft_check_pid(char *str, pid_t *pid)
 {
     int     i;
 
     i = 0;
-    if (pid < 1 || pid > 4194304)
+    while (str[i])
+    {
+        if (str[i] >= '0' && str[i] <= '9')
+            i++;
+        else
+        {
+            write(2, "Invalid PID\n", 12);
+            return (1);
+        }
+    }
+    *pid = ft_atoi(str);
+    if (*pid < 1 || *pid > 4194304)
     {
         write(2, "Invalid PID\n", 12);
         return (1);
-    }
-    while (pid)
-    {
-        if (pid[i] >= 0 && pid[i] <= 9)
-            i++;
-        else
-            return (1);
     }
     return (0);
 }
@@ -44,7 +48,7 @@ void    ft_send_bit(char c, pid_t pid) // pid_t pid est le pid que je rentre man
     i = 0;
     while (i < 8) // un char est code sur 8 bits donc on veut envoyer 8 signaux
     {
-        if ((c << i) & 1) // char est compris par l'ordi en binaire | pour comparer le bit le plus a gauche avec 1 | if (1) alors ...
+        if ((c >> i) & 1) // char est compris par l'ordi en binaire | pour comparer le bit le plus a gauche avec 1 | if (1) alors ...
         {
             if (kill(pid, SIGUSR2) == -1) // si kill == -1, n'envoie pas de signal, si kill != -1, envoie SIGUSR2
             {
@@ -60,7 +64,7 @@ void    ft_send_bit(char c, pid_t pid) // pid_t pid est le pid que je rentre man
                exit(1);
             }
         }
-        usleep(200); // suspend l'execution du programme en microsecondes 
+        usleep(200); // suspend l'execution du programme en microsecondes
         i++;
     }
 }
@@ -76,12 +80,11 @@ int     main(int ac, char **av)
         write(2, "2 arg max\n", 10); // 2 = sortie d'erreur
         return (1);
     }
-    pid = ft_atoi(av[1]);
-    if (ft_check_pid(pid) == 1)
+    if (ft_check_pid(av[1], &pid) == 1) // je passe pid (string) et l'adresse de pid puis je recupere pid en int
         return (1);
-    while (av[1][i]) // tant que la chaine passee en parametre existe
+    while (av[2][i] != '\0') // tant que la chaine passee en parametre existe
     {
-        ft_send_bit(av[1][i], pid); // la fonction travaille sur un caractere de la chaine passee en parametre
+        ft_send_bit(av[2][i], pid); // la fonction travaille sur un caractere de la chaine passee en parametre
         i++;
     }
     ft_send_bit('\0', pid); // \0 en bin = 0000 0000
