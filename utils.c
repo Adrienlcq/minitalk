@@ -87,3 +87,12 @@ void	ft_putnbr_fd(int n, int fd)
 	else
 		ft_putchar_fd(nbr + '0', fd);
 }
+
+void	ft_putstr_fd(char *s, int fd) 
+{
+	int i;
+
+	i = 0;
+	while (s[i])
+		write(fd, &s[i++], 1);
+} 

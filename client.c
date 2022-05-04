@@ -15,7 +15,19 @@
 #include <signal.h>
 #include <stdlib.h>
 
+int g_sig;
+
 int     ft_atoi(const char *str);
+void    ft_putstr_fd(char *s, int fd);
+
+int ft_wait_sig(void)
+{
+    while (g_sig == 0)
+        usleep(10);
+    if (g_sig == 1)
+        g_sig = 0;
+    return (1);
+}
 
 int     ft_check_pid(char *str, pid_t *pid)
 {
@@ -46,15 +58,17 @@ void    ft_send_bit(char c, pid_t pid) // pid_t pid est le pid que je rentre man
     int i;
 
     i = 0;
-    while (i < 8) // un char est code sur 8 bits donc on veut envoyer 8 signaux
+    while (128 >> i) // un char est code sur 8 bits donc on veut envoyer 8 signaux
     {
-        if ((c >> i) & 1) // char est compris par l'ordi en binaire | pour comparer le bit le plus a gauche avec 1 | if (1) alors ...
+        usleep(100);
+        if ((128 >> i) & c) // c est compris par l'ordi en binaire | pour comparer le bit le plus a gauche avec 1 | if (1) alors ...
         {
             if (kill(pid, SIGUSR2) == -1) // si kill == -1, n'envoie pas de signal, si kill != -1, envoie SIGUSR2
             {
                 write(2, "Error, signal failed !\n", 24);
                 exit(1);
             }
+            ft_wait_sig();
         }
         else
         {
@@ -63,10 +77,23 @@ void    ft_send_bit(char c, pid_t pid) // pid_t pid est le pid que je rentre man
                write(2, "Error, signal failed !\n", 24);
                exit(1);
             }
+            ft_wait_sig();
         }
-        usleep(200); // suspend l'execution du programme en microsecondes
+        //usleep(500); // suspend l'execution du programme en microsecondes
         i++;
     }
+}
+
+void    ft_handler(int sig)
+{
+    (void)sig;
+    g_sig = 1;
+}
+
+void    ft_fin(int sig)
+{
+    (void)sig;
+    ft_putstr_fd("The message has been received by server\n", 1);
 }
 
 int     main(int ac, char **av)
@@ -82,8 +109,11 @@ int     main(int ac, char **av)
     }
     if (ft_check_pid(av[1], &pid) == 1) // je passe pid (string) et l'adresse de pid puis je recupere pid en int
         return (1);
+    signal(SIGUSR1, ft_handler);
+    signal(SIGUSR2, ft_fin);
     while (av[2][i] != '\0') // tant que la chaine passee en parametre existe
     {
+        printf("valeur de i (argument) : %d\n", i);
         ft_send_bit(av[2][i], pid); // la fonction travaille sur un caractere de la chaine passee en parametre
         i++;
     }
