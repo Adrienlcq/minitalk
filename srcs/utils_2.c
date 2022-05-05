@@ -12,12 +12,21 @@
 
 #include "../includes/minitalk.h"
 
-void    ft_init_struct(void)
+void	ft_bzero(void *s, size_t n)
 {
-    ft_bzero(g_buffer.buffer, 200);
-    g_buffer.i_buff = 0;
-    g_buffer.nb_bit = 0;
-    g_buffer.max_bit = 128;
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	str = (char *)s;
+	if (n != 0)
+	{
+		while (i < n)
+		{
+			str[i] = '\0';
+			i++;
+		}
+	}
 }
 
 int     ft_check_pid(char *str, pid_t *pid)
@@ -44,19 +53,3 @@ int     ft_check_pid(char *str, pid_t *pid)
     return (0);
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	char	*str;
-	size_t	i;
-
-	i = 0;
-	str = (char *)s;
-	if (n != 0)
-	{
-		while (i < n)
-		{
-			str[i] = '\0';
-			i++;
-		}
-	}
-}

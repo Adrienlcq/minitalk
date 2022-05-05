@@ -6,7 +6,7 @@
 #    By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/05 13:06:52 by adlecler          #+#    #+#              #
-#    Updated: 2022/05/05 15:04:24 by adlecler         ###   ########.fr        #
+#    Updated: 2022/05/05 17:24:02 by adlecler         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,20 @@ BOLD = \033[1m
 CYAN = \x1b[36m
 
 SRCS_CLIENT			=	srcs/client.c\
-						srcs/utils.c
+						srcs/utils.c\
+						srcs/utils_2.c
 
 SRCS_SERVER			=	srcs/server.c\
-						srcs/utils.c
+						srcs/utils.c\
+						srcs/utils_2.c
 
 SRCS_CLIENT_BONUS	=	srcs/client_bonus.c\
-						srcs/utils.c
+						srcs/utils.c\
+						srcs/utils_2.c
 
 SRCS_SERVER_BONUS	=	srcs/server_bonus.c\
-						srcs/utils.c
+						srcs/utils.c\
+						srcs/utils_2.c
 
 DIR_HEAD			=	includes/
 

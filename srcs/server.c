@@ -6,13 +6,21 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:24:42 by adlecler          #+#    #+#             */
-/*   Updated: 2022/05/05 15:21:53 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:23:15 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
 t_buffer    g_buffer;
+
+void    ft_init_struct(void)
+{
+    ft_bzero(g_buffer.buffer, 200);
+    g_buffer.i_buff = 0;
+    g_buffer.nb_bit = 0;
+    g_buffer.max_bit = 128;
+}
 
 void	ft_print(void)
 {
