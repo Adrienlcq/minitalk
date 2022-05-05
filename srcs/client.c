@@ -6,51 +6,21 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:34:57 by adlecler          #+#    #+#             */
-/*   Updated: 2022/05/03 13:50:07 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:08:46 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdlib.h>
+#include "../includes/minitalk.h"
 
-int g_sig;
+int     g_sig;
 
-int     ft_atoi(const char *str);
-void    ft_putstr_fd(char *s, int fd);
-
-int ft_wait_sig(void)
+int     ft_wait_sig(void)
 {
     while (g_sig == 0)
         usleep(10);
     if (g_sig == 1)
         g_sig = 0;
     return (1);
-}
-
-int     ft_check_pid(char *str, pid_t *pid)
-{
-    int     i;
-
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] >= '0' && str[i] <= '9')
-            i++;
-        else
-        {
-            write(2, "Invalid PID\n", 12);
-            return (1);
-        }
-    }
-    *pid = ft_atoi(str);
-    if (*pid < 1 || *pid > 4194304)
-    {
-        write(2, "Invalid PID\n", 12);
-        return (1);
-    }
-    return (0);
 }
 
 void    ft_send_bit(char c, pid_t pid) // pid_t pid est le pid que je rentre manuellement apres le ./client
@@ -79,7 +49,6 @@ void    ft_send_bit(char c, pid_t pid) // pid_t pid est le pid que je rentre man
             }
             ft_wait_sig();
         }
-        //usleep(500); // suspend l'execution du programme en microsecondes
         i++;
     }
 }
@@ -90,7 +59,7 @@ void    ft_handler(int sig)
     g_sig = 1;
 }
 
-void    ft_fin(int sig)
+void    ft_end(int sig)
 {
     (void)sig;
     ft_putstr_fd("The message has been received by server\n", 1);
@@ -104,16 +73,15 @@ int     main(int ac, char **av)
     i = 0;
     if (ac != 3)
     {
-        write(2, "2 arg max\n", 10); // 2 = sortie d'erreur
+        write(2, "Need 1 arg after PID\n", 21); // 2 = sortie d'erreur
         return (1);
     }
     if (ft_check_pid(av[1], &pid) == 1) // je passe pid (string) et l'adresse de pid puis je recupere pid en int
         return (1);
     signal(SIGUSR1, ft_handler);
-    signal(SIGUSR2, ft_fin);
+    signal(SIGUSR2, ft_end);
     while (av[2][i] != '\0') // tant que la chaine passee en parametre existe
     {
-        printf("valeur de i (argument) : %d\n", i);
         ft_send_bit(av[2][i], pid); // la fonction travaille sur un caractere de la chaine passee en parametre
         i++;
     }

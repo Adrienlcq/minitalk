@@ -6,12 +6,11 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 13:34:14 by adlecler          #+#    #+#             */
-/*   Updated: 2022/05/03 13:37:41 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:16:00 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
+#include "../includes/minitalk.h"
 
 int		ft_strlen(char *str)
 {
@@ -21,23 +20,6 @@ int		ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	char	*str;
-	size_t	i;
-
-	i = 0;
-	str = (char *)s;
-	if (n != 0)
-	{
-		while (i < n)
-		{
-			str[i] = '\0';
-			i++;
-		}
-	}
 }
 
 int     ft_atoi(const char *str)
