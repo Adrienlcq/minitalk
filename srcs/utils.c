@@ -6,15 +6,15 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 13:34:14 by adlecler          #+#    #+#             */
-/*   Updated: 2022/05/05 15:16:00 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/05/06 15:59:18 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
-int		ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -22,7 +22,7 @@ int		ft_strlen(char *str)
 	return (i);
 }
 
-int     ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	int		i;
 	long	result;
@@ -70,11 +70,11 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putchar_fd(nbr + '0', fd);
 }
 
-void	ft_putstr_fd(char *s, int fd) 
+void	ft_putstr_fd(char *s, int fd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
 		write(fd, &s[i++], 1);
-} 
+}

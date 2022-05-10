@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_2.c                                           :+:      :+:    :+:   */
+/*   utils2_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 15:34:57 by adlecler          #+#    #+#             */
-/*   Updated: 2022/05/05 15:13:28 by adlecler         ###   ########.fr       */
+/*   Created: 2022/05/06 16:31:16 by adlecler          #+#    #+#             */
+/*   Updated: 2022/05/06 16:31:19 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,26 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-int     ft_check_pid(char *str, pid_t *pid)
+int	ft_check_pid(char *str, pid_t *pid)
 {
-    int     i;
+	int	i;
 
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] >= '0' && str[i] <= '9')
-            i++;
-        else
-        {
-            write(2, "Invalid PID\n", 12);
-            return (1);
-        }
-    }
-    *pid = ft_atoi(str);
-    if (*pid < 1 || *pid > 4194304)
-    {
-        write(2, "Invalid PID\n", 12);
-        return (1);
-    }
-    return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= '0' && str[i] <= '9')
+			i++;
+		else
+		{
+			write(2, "Invalid PID\n", 12);
+			return (1);
+		}
+	}
+	*pid = ft_atoi(str);
+	if (*pid < 1 || *pid > 4194304)
+	{
+		write(2, "Invalid PID\n", 12);
+		return (1);
+	}
+	return (0);
 }
-
